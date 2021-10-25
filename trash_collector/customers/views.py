@@ -27,6 +27,7 @@ def index(request):
 
 @login_required
 def create(request):
+    print('can you see me as a customer')
     logged_in_user = request.user
     if request.method == "POST":
         name_from_form = request.POST.get('name')
