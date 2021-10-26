@@ -39,7 +39,6 @@ def index(request):
 
 @login_required
 def create(request):
-    print('Can you see me')
     logged_in_user = request.user
     if request.method == "POST":
         name_from_form = request.POST.get('name')
@@ -50,3 +49,22 @@ def create(request):
         return HttpResponseRedirect(reverse('employees:index'))
     else:
         return render(request, 'employees/create.html')
+
+@login_required
+def edit_profile(request):
+    logged_in_user = request.user
+    logged_in_employee = Employee.objects.get(user=logged_in_user)
+    if request.method == "POST":
+        name_from_form = request.POST.get('name')
+        address_from_form = request.POST.get('address')
+        zip_from_form = request.POST.get('zip_code')
+        logged_in_employee.name = name_from_form
+        logged_in_employee.address = address_from_form
+        logged_in_employee.zip_code = zip_from_form
+        logged_in_employee.save()
+        return HttpResponseRedirect(reverse('employees:index'))
+    else:
+        context = {
+            'logged_in_employees': logged_in_employee
+        }
+        return render(request, 'employees/edit_profile.html', context)
