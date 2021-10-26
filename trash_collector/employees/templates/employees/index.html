@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'employees\employee_base.html' %}
 
 {% block title %}{% block header %} Employee Home {% endblock %}{% endblock %}
 
@@ -6,7 +6,6 @@
   {% if user.is_authenticated %}
     Hello Employee {{ user.username }}!
     Address: {{ logged_in_employee.address }} {{logged_in_employee.zip_code }}<br />
-
   {% else %}
     <p>You are at the employee index, but you are not logged in.</p>
     <a href="{% url 'login' %}">Log In</a>
