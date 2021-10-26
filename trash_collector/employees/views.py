@@ -23,12 +23,19 @@ def index(request):
     try:
         # This line will return the customer record of the logged-in user if one exists
         logged_in_employee = Employee.objects.get(user=logged_in_user)
-
         today = date.today()
+        #query customers table to find those who match emp's zip code
+        customers_in_zip_code = Customer.objects.filter(zip_code=logged_in_employee.zip_code)
+        pickups_today = customers_in_zip_code.filter(one_time_pickup=today) | customers_in_zip_code.filter(weekly_pickup=today.strftime("%A"))
+        non_sus_accounts = pickups_today.exclude(suspend_start__lt=today, suspend_end__gt=today) 
+        # not_picked_up_today = 
         
         context = {
             'logged_in_employee': logged_in_employee,
-            'today': today
+            'today': today,
+            'customers_in_zip_code' : customers_in_zip_code,
+            'pickups_today' : pickups_today,
+            'non_sus_accounts' : non_sus_accounts
         }
         return render(request, 'employees/index.html', context)
     except ObjectDoesNotExist:
