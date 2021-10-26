@@ -58,9 +58,9 @@ def edit_profile(request):
         name_from_form = request.POST.get('name')
         address_from_form = request.POST.get('address')
         zip_from_form = request.POST.get('zip_code')
-        logged_in_employee.name = request.POST.get('name_from_form')
-        logged_in_employee.address = request.POST.get('address_from_form')
-        logged_in_employee.zip_code = request.POST.get('zip_from_form')
+        logged_in_employee.name = name_from_form
+        logged_in_employee.address = address_from_form
+        logged_in_employee.zip_code = zip_from_form
         logged_in_employee.save()
         return HttpResponseRedirect(reverse('employees:index'))
     else:
