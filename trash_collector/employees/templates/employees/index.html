@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}{% block header %} Employee Home {% endblock %}{% endblock %}
-
+{% block title %} Employee Home {% endblock %}
+{% block header %} Hello Employee {{ user.username }}! {% endblock %}
 {% block content %}
   {% if user.is_authenticated %}
-    Hello Employee {{ user.username }}!
+  <!-- <button type="button" class="col-sm-6 btn btn-success mb-2">
+    <a class="text-light text-uppercase text-decoration-none" 
+  </button> -->
+    
     Address: {{ logged_in_employee.address }} {{logged_in_employee.zip_code }}<br />
 
   {% else %}

@@ -39,7 +39,6 @@ def index(request):
 
 @login_required
 def create(request):
-    print('Can you see me')
     logged_in_user = request.user
     if request.method == "POST":
         name_from_form = request.POST.get('name')
