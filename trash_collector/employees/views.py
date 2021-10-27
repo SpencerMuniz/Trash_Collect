@@ -90,28 +90,29 @@ def search_weekday_pickup(request):
     logged_in_user = request.user
     logged_in_employee = Employee.objects.get(user=logged_in_user)
     employee_zip_code = logged_in_employee.zip_code
-    if request.method == "POST":
-        weekdays = request.POST.get('weekly_pickup')
-        match_to_customer = Customer.objects.filter(zip_code=employee_zip_code).filter(weekly_pickup=weekdays)
-        day_select = weekdays
-        context = {
+    # if request.method == "POST":
+    weekdays = request.POST.get('weekday')
+    match_to_customer = Customer.objects.filter(zip_code=employee_zip_code).filter(weekly_pickup=weekdays)
+    day_select = weekdays
+    context = {
             'match_to_customer': match_to_customer,
             'logged_in_employee': logged_in_employee,
             'day_select': day_select
         }
-        return render(request, 'employees/search_weekday_pickup.html', context)
-    else:
-        today = date.today()
-        days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-        current_day = days[today.weekday()]
-        match_to_customer = Customer.objects.filter(zip_code=employee_zip_code).filter(weekly_pickup=current_day)
-        day_select = current_day
-        context = {
-            'match_to_customer': match_to_customer,
-            'logged_in_employee': logged_in_employee,
-            'day_select': day_select
-        }
+    print(context)
     return render(request, 'employees/search_weekday_pickup.html', context)
+    # else:
+    #     today = date.today()
+    #     days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    #     current_day = days[today.weekday()]
+    #     match_to_customer = Customer.objects.filter(zip_code=employee_zip_code).filter(weekly_pickup=current_day)
+    #     day_select = current_day
+    #     context = {
+    #         'match_to_customer': match_to_customer,
+    #         'logged_in_employee': logged_in_employee,
+    #         'day_select': day_select
+    #     }
+    # return render(request, 'employees/search_weekday_pickup.html', context)
 
 # @login_required
 # def search_weekday_pickup(request):
