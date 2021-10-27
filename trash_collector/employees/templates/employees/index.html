@@ -9,7 +9,7 @@
   </button> -->
     
     Address: {{ logged_in_employee.address }} {{logged_in_employee.zip_code }}<br />
-             <h1> Customers Pickups Today</h1>
+             <h1> Customer Pickups Today</h1>
              {% for customer in non_sus_accounts %}
              <li> Customer Name: {{ customer.name }} <br /> 
                 Zip Code: {{ customer.zip_code }} <br />
