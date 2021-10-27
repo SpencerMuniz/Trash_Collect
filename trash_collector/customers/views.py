@@ -91,3 +91,4 @@ def edit_profile(request):
             'logged_in_customer': logged_in_customer
         }
         return render(request, 'customers/edit_profile.html', context)
+
