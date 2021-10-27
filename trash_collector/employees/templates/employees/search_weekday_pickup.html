@@ -1,0 +1,29 @@
+{% extends 'employees\employee_base.html' %}
+
+{% block title %} Filter Customer Day {% endblock %}
+
+{% block header %} Employee Search Terminal {% endblock %}
+
+{% block content %}
+<br />
+
+<form action="{% url 'employees:search_weekday_pickup' %}" method="post">
+{% csrf_token %}
+    Select Weekday: <select name="weekday" id="weekly_pickup">
+        <option value='' selected disabled hidden>Pick a Day</option>
+        <option value='Sunday'>Sunday</option>
+        <option value='Monday'>Monday</option>
+        <option value='Tuesday'>Tuesday</option>
+        <option value='Wednesday'>Wednesday</option>
+        <option value='Thursday'>Thursday</option>
+        <option value='Friday'>Friday</option>
+        <option value='Saturday'>Saturday</option>
+    </select>
+    <input class="spinner-border text-primary" type="submit" value="search">
+</form>
+Customer: {{ logged_in_employee.zip_code}} {{ day_select }}
+{% for customer in match_customer%}
+<input type="name" name="name" id="name" value="{{ customer.name }}" readonly>
+{% endfor %}
+
+{% endblock %}

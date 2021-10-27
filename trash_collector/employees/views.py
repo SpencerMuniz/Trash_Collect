@@ -85,53 +85,53 @@ def confirm_pickup_charge_balance(request,customer_id):
     customer_charge.save()
     return HttpResponseRedirect(reverse('employees:index'))
 
-# @login_required
-# def search_weekday_pickup(request):
-#     logged_in_user = request.user
-#     logged_in_employee = Employee.objects.get(user=logged_in_user)
-#     employee_zip_code = logged_in_employee.zip_code
-#     if request.method == "POST":
-#         weekdays = request.POST.get('weekly_pickup')
-#         match_to_customer = Customer.objects.filter(zip_code=employee_zip_code).filter(weekly_pickup=weekdays)
-#         day_select = weekdays
-#         context = {
-#             'match_to_customer': match_to_customer,
-#             'logged_in_employee': logged_in_employee,
-#             'day_select': day_select
-#         }
-#         return render(request, 'employees/search_weekday_pickup.html', context)
-#     else:
-#         today = date.today()
-#         days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
-#         current_day = days[today.]
-#         match_to_customer = Customer.objects.filter(zip_code=employee_zip_code).filter(weekly_pickup=current_day)
-#         day_select = current_day
-#         context = {
-#             'match_to_customer': match_to_customer,
-#             'logged_in_employee': logged_in_employee,
-#             'day_select': day_select
-#         }
-#     return render(request, 'employees/search_weekday_pickup.html', context)
-
 @login_required
 def search_weekday_pickup(request):
-    # The following line will get the logged-in user (if there is one) within any view function
     logged_in_user = request.user
-    try:
-        # This line will return the customer record of the logged-in user if one exists
-        logged_in_employee = Employee.objects.get(user=logged_in_user)
-        today = date.today()
-        logged_in_employee_zip_code = logged_in_employee.zip_code
-        customers_in_zip_code = Customer.objects.filter(zip_code=logged_in_employee_zip_code)
-        pickups_this_week = customers_in_zip_code.filter(weekly_pickup=logged_in_employee)
-        non_sus_accounts = pickups_this_week.exclude(suspend_start__lt=today, suspend_end__gt=today)
+    logged_in_employee = Employee.objects.get(user=logged_in_user)
+    employee_zip_code = logged_in_employee.zip_code
+    if request.method == "POST":
+        weekdays = request.POST.get('weekly_pickup')
+        match_to_customer = Customer.objects.filter(zip_code=employee_zip_code).filter(weekly_pickup=weekdays)
+        day_select = weekdays
         context = {
+            'match_to_customer': match_to_customer,
             'logged_in_employee': logged_in_employee,
-            'today': today,
-            'customers_in_zip_code' : customers_in_zip_code,
-            'pickups_today' : pickups_this_week,
-            'non_sus_accounts' : non_sus_accounts
+            'day_select': day_select
         }
-        return render(request, 'employees/index.html', context)
-    except ObjectDoesNotExist:
-        return HttpResponseRedirect(reverse('employees:create'))
+        return render(request, 'employees/search_weekday_pickup.html', context)
+    else:
+        today = date.today()
+        days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        current_day = days[today.weekday()]
+        match_to_customer = Customer.objects.filter(zip_code=employee_zip_code).filter(weekly_pickup=current_day)
+        day_select = current_day
+        context = {
+            'match_to_customer': match_to_customer,
+            'logged_in_employee': logged_in_employee,
+            'day_select': day_select
+        }
+    return render(request, 'employees/search_weekday_pickup.html', context)
+
+# @login_required
+# def search_weekday_pickup(request):
+#     # The following line will get the logged-in user (if there is one) within any view function
+#     logged_in_user = request.user
+#     if request.method == "POST":
+#         # This line will return the customer record of the logged-in user if one exists
+#         logged_in_employee = Employee.objects.get(user=logged_in_user)
+#         today = date.today()
+#         logged_in_employee_zip_code = logged_in_employee.zip_code
+#         customers_in_zip_code = Customer.objects.filter(zip_code=logged_in_employee_zip_code)
+#         pickups_this_week = customers_in_zip_code.filter(weekly_pickup=logged_in_employee)
+#         non_sus_accounts = pickups_this_week.exclude(suspend_start__lt=today, suspend_end__gt=today)
+#         context = {
+#             'logged_in_employee': logged_in_employee,
+#             'today': today,
+#             'customers_in_zip_code' : customers_in_zip_code,
+#             'pickups_today' : pickups_this_week,
+#             'non_sus_accounts' : non_sus_accounts
+#         }
+#         return render(request, 'employees/search_weekday_pickup.html', context)
+#     else: 
+#         return HttpResponseRedirect(reverse('employees:create'))
