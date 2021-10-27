@@ -27,7 +27,7 @@ def index(request):
         today = date.today()
         logged_in_employee_zip_code = logged_in_employee.zip_code
         customers_in_zip_code = Customer.objects.filter(zip_code=logged_in_employee_zip_code)
-        pickups_today = Customer.objects.filter(pickups_today=today.strftime("%A"))
+        pickups_today = customers_in_zip_code.filter(weekly_pickup=today.strftime("%A"))
         non_sus_accounts = pickups_today.exclude(suspend_start__lt=today, suspend_end__gt=today)
         context = {
             'logged_in_employee': logged_in_employee,
