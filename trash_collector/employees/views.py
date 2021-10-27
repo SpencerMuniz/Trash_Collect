@@ -14,7 +14,6 @@ from .models import Employee
 # Create your views here.
 
 # TODO: Create a function for each path created in employees/urls.py. Each will need a template as well.
-
 Customer = apps.get_model('customers.Customer')
 
 @login_required
@@ -23,6 +22,7 @@ def index(request):
     logged_in_user = request.user
     try:
         # This line will return the customer record of the logged-in user if one exists
+        
         logged_in_employee = Employee.objects.get(user=logged_in_user)
         today = date.today()
         logged_in_employee_zip_code = logged_in_employee.zip_code
@@ -43,7 +43,7 @@ def index(request):
 
 # def index(request):
     # This line will get the Customer model from the other app, it can now be used to query the db for Customers
-
+    # Customer = apps.get_model('customers.Customer')
     # return render(request, 'employees/index.html')
 
 @login_required
@@ -77,33 +77,10 @@ def edit_profile(request):
             'logged_in_employees': logged_in_employee
         }
         return render(request, 'employees/edit_profile.html', context)
-# @login_required
-# def filter(request):
-#     logged_in_user = request.user
-#     logged_in_employee = Employee.objects.get(user=logged_in_user)
-#     today = datetime.datetime.now()
-#     location = Customer.objects.filter(zip_code='logged_in_employee.zip_code')
-#     day_of_week = location.filter(pickup_day = (today.strftime("%A")))
-#     active = day_of_week.exclude(suspended_customers())
-#     return HttpResponseRedirect(reverse('employees:index'))
-    
 
-
-# def suspended_customers(customers, today):
-#     suspended_customers = []
-#     for customer in customers:
-#         suspend_start = customer.suspend_start
-#         suspend_end = customer.suspend_end
-#         if (suspend_start and suspend_end) and (not customer.suspend_start >= today and customer.suspend_end <= today):
-#             suspended_customers.append(customer)
-#         elif not (suspend_end and suspend_start):
-#             suspended_customers.append(customer)
-#     return suspended_customers
-
-# def get_customers_by_zip_code(employee, zip_code):
-#     local_customers = []
-#     for customer in zip_code:
-#         zip_code = customer.zip_code
-#         if zip_code == employee.zip_code:
-#             local_customers.append(customer)
-#     return local_customers
+@login_required
+def confirm_pickup_charge_balance(customer_id):
+    customer_charge = Customer.objects.get(id=customer_id)
+    customer_charge.balance += 20
+    customer_charge.save()
+    return HttpResponseRedirect(reverse('employees:index'))
