@@ -84,3 +84,4 @@ def confirm_pickup_charge_balance(customer_id):
     customer_charge.balance += 20
     customer_charge.save()
     return HttpResponseRedirect(reverse('employees:index'))
+
