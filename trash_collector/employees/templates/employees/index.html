@@ -17,7 +17,7 @@
                 Weekly Pickup: {{ customer.weekly_pickup}} <br />
                 One Time Pickup: {{ customer.one_time_pickup}} <br />
             </li> 
-             <a class="btn btn-outline-primary" href="{% url 'employees:confirm_pickup_charge_balance' customer.id %}">Confirm</a>
+             <a class="btn btn-outline-primary" href="{% url 'employees:confirm_pickup_charge_balance' customer.id %}">Confirm/Charge</a>
   {% endfor %}
     {% else %}
     <p>You are at the employee index, but you are not logged in.</p>

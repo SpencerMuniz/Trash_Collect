@@ -79,7 +79,7 @@ def edit_profile(request):
         return render(request, 'employees/edit_profile.html', context)
 
 @login_required
-def confirm_pickup_charge_balance(customer_id):
+def confirm_pickup_charge_balance(request, customer_id):
     customer_charge = Customer.objects.get(id=customer_id)
     customer_charge.balance += 20
     customer_charge.save()
