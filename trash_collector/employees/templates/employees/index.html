@@ -9,7 +9,17 @@
   </button> -->
     
     Address: {{ logged_in_employee.address }} {{logged_in_employee.zip_code }}<br />
-  {% else %}
+             <h1> Customers Pickups Today</h1>
+             {% for customer in non_sus_accounts %}
+             <li> Customer Name: {{ customer.name }} <br /> 
+                Zip Code: {{ customer.zip_code }} <br />
+                Customer Address: {{ customer.address }} <br />
+                Weekly Pickup: {{ customer.weekly_pickup}} <br />
+                One Time Pickup: {{ customer.one_time_pickup}} <br />
+            </li> 
+             {{ employees_}}
+  {% endfor %}
+    {% else %}
     <p>You are at the employee index, but you are not logged in.</p>
     <a href="{% url 'login' %}">Log In</a>
     <a href="{% url 'accounts:register' %}">Sign Up</a>

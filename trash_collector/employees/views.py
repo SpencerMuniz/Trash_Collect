@@ -15,6 +15,7 @@ from .models import Employee
 
 # TODO: Create a function for each path created in employees/urls.py. Each will need a template as well.
 
+Customer = apps.get_model('customers.Customer')
 
 @login_required
 def index(request):
@@ -44,7 +45,7 @@ def index(request):
 
 # def index(request):
     # This line will get the Customer model from the other app, it can now be used to query the db for Customers
-    # Customer = apps.get_model('customers.Customer')
+
     # return render(request, 'employees/index.html')
 
 @login_required
