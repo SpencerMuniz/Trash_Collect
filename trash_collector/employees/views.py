@@ -27,7 +27,7 @@ def index(request):
         today = date.today()
         logged_in_employee_zip_code = logged_in_employee.zip_code
         customers_in_zip_code = Customer.objects.filter(zip_code=logged_in_employee_zip_code)
-        pickups_today = customers_in_zip_code.filter(weekly_pickup=today.strftime("%A"))
+        pickups_today = customers_in_zip_code.filter(pickups_today=today.strftime("%A"))
         non_sus_accounts = pickups_today.exclude(suspend_start__lt=today, suspend_end__gt=today)
         context = {
             'logged_in_employee': logged_in_employee,
@@ -79,9 +79,36 @@ def edit_profile(request):
         return render(request, 'employees/edit_profile.html', context)
 
 @login_required
-def confirm_pickup_charge_balance(request, customer_id):
+def confirm_pickup_charge_balance(request,customer_id):
     customer_charge = Customer.objects.get(id=customer_id)
     customer_charge.balance += 20
     customer_charge.save()
     return HttpResponseRedirect(reverse('employees:index'))
 
+@login_required
+def search_weekday_pickup(request):
+    logged_in_user = request.user
+    logged_in_employee = Employee.objects.get(user=logged_in_user)
+    employee_zip_code = logged_in_employee.zip_code
+    if request.method == "POST":
+        weekdays = request.POST.get('weekly_pickup')
+        match_to_customer = Customer.objects.filter(zip_code=employee_zip_code).filter(weekly_pickup=weekdays)
+        day_select = weekdays
+        context = {
+            'match_to_customer': match_to_customer,
+            'logged_in_employee': logged_in_employee,
+            'day_select': day_select
+        }
+        return render(request, 'html', context)
+    else:
+        today = date.today()
+        days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        current_day = days[today.strftime("%A")]
+        match_to_customer = Customer.objects.filter(zip_code=employee_zip_code).filter(weekly_pickup=current_day)
+        day_select = current_day
+        context = {
+            'match_to_customer': match_to_customer,
+            'logged_in_employee': logged_in_employee,
+            'day_select': day_select
+        }
+    return render(request, 'html', context)
