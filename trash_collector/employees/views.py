@@ -10,6 +10,7 @@ import datetime
 from customers.models import Customer
 
 
+
 from .models import Employee
 
 # Create your views here.
@@ -28,7 +29,7 @@ def index(request):
         today = date.today()
         logged_in_employee_zip_code = logged_in_employee.zip_code
         customers_in_zip_code = Customer.objects.filter(zip_code=logged_in_employee_zip_code)
-        pickups_today = customers_in_zip_code.filter(weekly_pickup=today.strftime("%A"))
+        pickups_today = customers_in_zip_code.filter(weekly_pickup=today.strftime("%A")) | customers_in_zip_code.filter(one_time_pickup=today)
         non_sus_accounts = pickups_today.exclude(suspend_start__lt=today, suspend_end__gt=today)
         context = {
             'logged_in_employee': logged_in_employee,

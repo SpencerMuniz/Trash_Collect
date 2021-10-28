@@ -4,10 +4,7 @@
 {% block header %} Hello Employee {{ user.username }}! {% endblock %}
 {% block content %}
   {% if user.is_authenticated %}
-  <!-- <button type="button" class="col-sm-6 btn btn-success mb-2">
-    <a class="text-light text-uppercase text-decoration-none" 
-  </button> -->
-    
+
     Address: {{ logged_in_employee.address }} {{logged_in_employee.zip_code }}<br />
              <h1> Customer Pickups Today</h1>
              {% for customer in non_sus_accounts %}
