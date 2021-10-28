@@ -19,12 +19,12 @@
         <option value='Friday'>Friday</option>
         <option value='Saturday'>Saturday</option>
     </select>
-    <input class="spinner-border text-primary" type="submit" value="search">
+    <input class="btn btn-success" type="submit" value="search">
 </form>
 Customer: {{ logged_in_employee.zip_code}} {{ day_select }}
 {% for customer in match_to_customer %}
-<!-- <input type="name" name="name" id="name" value="{{ customer.name }}" readonly> -->
-<p> {{ customer.name }}</p>
+<li><p> {{ customer.name }}</p>
+<p> {{ customer.address }}</p>
 {% endfor %}
 
 {% endblock %}
