@@ -23,8 +23,9 @@
 </form>
 Customer: {{ logged_in_employee.zip_code}} {{ day_select }}
 {% for customer in match_to_customer %}
-<li><p> {{ customer.name }}</p>
-<p> {{ customer.address }}</p>
+<li> {{ customer.name }} <br />
+{{ customer.address }} <br />
+</li>
 {% endfor %}
 
 {% endblock %}
